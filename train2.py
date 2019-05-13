@@ -15,7 +15,7 @@ from tensorpack.train.interface import TrainConfig
 from tensorpack.train.interface import launch_train_with_config
 from tensorpack.train.trainers import SyncMultiGPUTrainerReplicated
 from tensorpack.utils import logger
-
+from tensorpack.train.trainers import SimpleTrainer
 from data_load import Net2DataFlow
 from hparam import hparam as hp
 from models import Net2
@@ -62,7 +62,7 @@ def train(args, logdir1, logdir2):
         os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
         train_conf.nr_tower = len(args.gpu.split(','))
 
-    trainer = SyncMultiGPUTrainerReplicated(hp.train2.num_gpu)
+    trainer = SimpleTrainer()
 
     launch_train_with_config(train_conf, trainer=trainer)
 

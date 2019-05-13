@@ -6,7 +6,7 @@ from __future__ import print_function
 import argparse
 import multiprocessing
 import os
-
+from tensorpack.train.trainers import SimpleTrainer
 from tensorpack.callbacks.saver import ModelSaver
 from tensorpack.tfutils.sessinit import SaverRestore
 from tensorpack.train.interface import TrainConfig
@@ -55,8 +55,8 @@ def train(args, logdir):
         os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
         train_conf.nr_tower = len(args.gpu.split(','))
 
-    trainer = SyncMultiGPUTrainerReplicated(hp.train1.num_gpu)
-
+    trainer = SimpleTrainer()
+#    print('test stop')
     launch_train_with_config(train_conf, trainer=trainer)
 
 
@@ -73,8 +73,10 @@ if __name__ == '__main__':
     hp.set_hparam_yaml(args.case)
     logdir_train1 = '{}/train1'.format(hp.logdir)
 
-    print('case: {}, logdir: {}'.format(args.case1, args.case, logdir_train1))
+    print('case: {}, logdir: {}'.format(args.case, logdir_train1))
 
     train(args, logdir=logdir_train1)
 
     print("Done")
+
+
